@@ -1,0 +1,350 @@
+<!-- SiteMinder Encoding=ISO-8859-1; -->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
+    <title>Dominion Self-Service :: Sign In</title>
+    <link href="https://www.dom.com/css/master.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .portlet-msg-error
+    {
+        font-weight: bold;
+        color: #CC3333;
+    }
+    </style>
+    <script type="text/javascript">
+	var detect = navigator.userAgent.toLowerCase();
+	var browser,version;
+		
+	function checkBrowser()
+	{
+
+		if (checkIt('konqueror')) browser = "Konqueror";
+		else if (checkIt('safari')) browser = "Safari";
+		else if (checkIt('omniweb')) browser = "OmniWeb";
+		else if (checkIt('opera')) browser = "Opera";
+		else if (checkIt('webtv')) browser = "WebTV";
+		else if (checkIt('icab')) browser = "iCab";
+		else if (checkIt('msie')) browser = "IE";
+		else if (!checkIt('compatible'))
+		{
+			browser = "Netscape Navigator"
+			version = detect.charAt(8);
+		}
+		else browser = "An unknown browser";
+		
+		return browser;
+	}
+	
+	function checkIt(string)
+	{
+		place = detect.indexOf(string) + 1;
+		thestring = string;
+		return place;
+	}
+	
+	function loadPage()
+	{
+		resetCredFields();
+		var smtryno = parseInt(readCookie('SMTRYNO'));
+		var div = document.getElementById('error');
+		var errorDiv = document.getElementById('errorDiv');
+
+		if(window.location.host == "my.dom.com" && !smtryno){
+			smtryno = 1;
+		}
+
+		if (smtryno > 0)
+		{
+			var p = document.createElement('P');
+			var p1 = document.createElement('P');
+			var br = document.createElement('BR');
+			var err = "";
+			var err1 = "";
+			var errMsgAccountLocked = "";
+			var forgotPass = document.createElement('a');
+			var forgotUser = document.createElement('a');
+			forgotPass.setAttribute('href','/externalPortalWebApp/forgotPassword/forgotPassword.jsp');
+			forgotPass.innerHTML = "Forgot Password";
+			forgotUser.setAttribute('href','/externalPortalWebApp/forgotUsername/forgotUserId.jsp');
+			forgotUser.innerHTML = "Forgot User Name";
+			
+			err = "You have entered an incorrect user name and/or password.  Try to re-enter in case you have  typed it incorrectly.  Please note that your password is case sensitive.";
+			errMsgAccountLocked = "After too many unsuccessful attempts, access to your account will be locked for 1 hour.";
+			err2 = "If you continue to have problems, use our '";
+			err3 = "' and/or '";
+			err4 = "' features below.";
+			
+			var text = document.createTextNode(err);
+			var textAccLocked = document.createTextNode(errMsgAccountLocked);
+			var text2 = document.createTextNode(err2);
+			var text3 = document.createTextNode(err3);
+			var text4 = document.createTextNode(err4);
+			
+			p.appendChild(text);
+			p.appendChild(document.createElement('BR'));
+			p.appendChild(document.createElement('BR'));
+			p.appendChild(textAccLocked);
+			
+			p1.appendChild(text2);
+			p1.appendChild(forgotPass);
+			p1.appendChild(text3);
+			p1.appendChild(forgotUser);
+			p1.appendChild(text4);
+			
+			if ((checkBrowser() == "IE") || (checkBrowser() == "Opera"))
+			{
+				div.appendChild(br);
+			}
+			
+			div.appendChild(p);
+			div.appendChild(p1);
+			errorDiv.style.display = "block";
+		}
+		
+	}
+    
+	function readCookie(name)
+	{
+		var nameEQ = name + "=";	//search for the name of the cookie, followed by an =
+		var ca = document.cookie.split(';');	//create cookie array (ca)
+		for(var i=0;i < ca.length;i++)	//iterate through ca
+		{
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+    
+    function resetCredFields()
+    {
+        document.forms["Login"].elements["PASSWORD"].value = '';
+        document.forms["Login"].elements["USER"].focus();
+    }
+    
+    function submitForm(f)
+    {
+        var validateFields  = new Array('USER','PASSWORD');
+        var errsCt          = 0;
+        var errsMsg         = "The form could not be submitted because \n" +
+                              "the following fields are required:      \n";
+    
+        for (var i=0; i<validateFields.length; i++) {
+            var fld = f.elements[validateFields[i]];
+            if (fld.value == '')
+            {
+                errsMsg += '  * ' + fld.title + '\n';
+                errsCt++;
+            }
+        }
+        
+        if (errsCt > 0) { alert( errsMsg ); return false; }
+        return true;
+    }
+    
+    function goBack ()
+    {
+        window.history.back();
+    }
+    </script>
+</head>
+
+<body onload="javascript:loadPage();">
+
+    <p>&nbsp;</p>
+
+    <!-- begin form -->
+    <form name="Login" method="post" onsubmit="javascript:return submitForm(this);">
+    <input type="hidden" name="SMENC" value="ISO-8859-1" />
+    <input type="hidden" name="SMLOCALE" value="US-EN" />
+    <input type="hidden" name="target" value="HTTPS://my.dom.com/externalPortalWebApp/mydom/mydom.portal?_nfpb=true&amp;_windowLabel=kcs_reports_3&amp;kcs_reports_3_actionOverride=%2Fkcs%2FAccountMaintenance%2FReports%2FgetMdmReport&amp;kcs_reports_3startTime=00%3A00%3A00&amp;kcs_reports_3uid=300000000001623225&amp;kcs_reports_3startDate=03%2F06%2F2014&amp;kcs_reports_3recorderId=09100114&amp;kcs_reports_3recorderId=09100114&amp;kcs_reports_3domRateCode=149&amp;kcs_reports_3endDate=04%2F04%2F2014&amp;kcs_reports_3uidServicePoint=19372&amp;kcs_reports_3spbp=1787215&amp;kcs_reports_3endTime=00%3A59%3A59" />
+    <input type="hidden" name="smauthreason" value="0" />
+    <input type="hidden" name="smagentname" value="jSvvCuktCUQMiDJ981ShOxzqfU7gIKqzk5MJ5fDzaAwQSokEhrtkO7OOxvmdxLlO" />
+    <input type="hidden" name="postpreservationdata" value="" />
+	
+	
+	
+	
+	<!-- begin login header -->
+	<div id="errorDiv" style="display: none;" >
+		<table align="center" border="0" cellpadding="0" cellspacing="0" width="393">
+		<tr style="height:1px;"> 
+			<td id="ul_corner" style="width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+			<td id="top" style="background-color:#0668b3;width:391px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+			<td id="ur_corner" style="width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+		</tr>
+
+		<tr style="height:35px;">
+			<td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+			<td class="componentHeader1" style="background:#fff url('https://www.dom.com/images/banner_fade_fcc.jpg') no-repeat right;padding-left:10px;">Please Try Again</td>
+			<td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+		</tr>
+		</table>
+		<!-- end login header -->
+		<!-- begin login table -->
+		<table align="center" border="0" cellpadding="0" cellspacing="0" width="393">
+		<tr style="height:5px;">
+			<td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+			<td colspan="3" style="width:391px;"></td>
+			<td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+		</tr>
+
+		<tr>
+			<td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+			<td style="width:10px;">&nbsp;</td>
+			<td class="bodyText" style="width:371px;">
+				<span style="float: left;"><img style="float: left; margin: 7px 5px 0px 0px;" src="/externalPortalWebApp/images/mydom/exclamation_point_small.gif" /><div id="error"></div></span>
+			</td>
+			<td style="width:10px;">&nbsp;</td>
+			<td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+		</tr>
+
+		<tr style="height:5px;">
+			<td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+			<td colspan="3" style="width:391px;"></td>
+			<td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+		</tr>
+		</table>
+	
+	</div>
+	
+
+    <!-- begin login header -->
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="393">
+    <tr style="height:1px;"> 
+        <td id="ul_corner" style="width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td id="top" style="background-color:#0668b3;width:391px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td id="ur_corner" style="width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr style="height:35px;">
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td class="componentHeader1" style="background:#fff url('https://www.dom.com/images/banner_fade_fcc.jpg') no-repeat right;padding-left:10px;">Please Sign In</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+    </table>
+    <!-- end login header -->
+
+    <!-- begin login table -->
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="393">
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td colspan="5" style="height:5px;width:391px;"></td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td colspan="3" class="bodyText" style="width:371px;">
+            Enter your user name and password below to sign in. If you have not created 
+            your Manage Your Account profile, you can 
+            <a href="/externalPortalWebApp/oneTwoThreeEnrollment/RegistrationController.jpf">register</a> now.<br>
+            <br>
+        </td>
+        <td style="width:10px;">&nbsp;</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td colspan="5" style="height:5px;width:391px;"></td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td class="componentHeader1" style="text-align:left;">User Name:</td>
+        <td style="width:10px;">&nbsp;</td>
+        <td><input type="text" name="USER" size="30" tabindex="1" title="User Name" class="bodyText"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td style="width:10px;">&nbsp;</td>
+        <td class="footer">
+            <a href="/externalPortalWebApp/forgotUsername/forgotUserId.jsp" class="sidebarLinks" tabindex="3">
+            Forgot your user name?</a></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td colspan="5" style="height:5px;width:391px;"></td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td class="componentHeader1" style="text-align:left;">Password:</td>
+        <td style="width:10px;">&nbsp;</td>
+        <td><input type="password" name="PASSWORD" size="30" tabindex="2" title="Password" class="bodyText"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td style="width:10px;">&nbsp;</td>
+        <td class="footer">
+            <a href="/externalPortalWebApp/forgotPassword/forgotPassword.jsp" class="sidebarLinks" tabindex="4">
+            Forgot your password?</a></td>
+        <td style="width:10px;">&nbsp;</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td colspan="5" style="height:5px;width:391px;"></td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr>
+        <td id="left" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td style="width:10px;">&nbsp;</td>
+      <td align="center" colspan="3" style="width:371px;">
+            <br><input value="Cancel" type="button" class="bodyText" onclick="javascript:goBack();">&nbsp;
+            <input value="Continue" type="submit" class="bodyText"><br>
+            <br>
+      </td>
+        <td style="width:10px;">&nbsp;</td>
+        <td id="right" style="background-color:#0668b3;width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+
+    <tr style="height:1px;"> 
+        <td id="ll_corner" style="width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td id="bottom" colspan="5" style="background-color:#0668b3;width:391px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+        <td id="lr_corner" style="width:1px;"><img src="https://www.dom.com/images/spacer.gif" width="1" height="1" border="0"></td>
+    </tr>
+    </table>
+    <!-- end login table -->
+
+    </form>
+    <!-- end form -->
+
+    <!-- footer -->
+    <p align="center">
+        <img src="https://www.dom.com/images/logo/dominion_logo_fcc.gif" width="156" height="68" border="0"><br>
+        <span class="copyright">Copyright &copy;&nbsp; 
+        <script type="text/javascript">
+        <!--
+	      document.write((new Date()).getFullYear());	
+        // -->
+        </script>
+        &nbsp;Dominion <a href="https://www.dom.com/legal-terms-and-conditions.jsp" target="_blank" class="sidebar_links">Legal 
+        Terms and Conditions</a></span>
+    </p>
+    <!-- end footer -->
+
+</body>
+</html>
