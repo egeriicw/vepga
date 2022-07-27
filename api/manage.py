@@ -2,13 +2,13 @@ import sys
 import unittest
 import coverage
 from flask.cli import FlaskGroup
-from project import create_app
-from project.extensions import db
-from project.modules.users.models import Users
+from src import create_app
+from src.extensions import db
+from src.modules.users.models import Users
 
 COV = coverage.coverage(branch=True,
-                        include='project/*',
-                        omit=['project/tests/*', 'project/config.py'])
+                        include='src/*',
+                        omit=['src/tests/*', 'src/config.py'])
 COV.start()
 
 app = create_app()
