@@ -1,36 +1,94 @@
 # WARNING: this file is not suitable for production, please use with caution
-version: '3'
+# version: '3'
+
+# services:
+#   api:
+#     image: vepga-api
+#     build: .
+#     command: gunicorn -b 0.0.0.0:5000 vepga-api.wsgi:app
+#     env_file:
+#       - ./.flaskenv
+#     environment:
+#       - DATABASE_URI=sqlite:////db/vepga-api.db
+#       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq
+#       - CELERY_RESULT_BACKEND_URL=redis://redis
+#     volumes:
+#       - ./vepga-api:/code/vepga-api
+#       - ./db/:/db/
+#     ports:
+#       - "5000:5000"
+#   frontend:
+#   rabbitmq:
+#     image: rabbitmq
+#   redis:
+#     image: redis
+#   celery:
+#     image: vepga-api
+#     command: "celery worker -A vepga-api.celery_app:app"
+#     env_file:
+#       - ./.flaskenv
+#     volumes:
+#       - .:/code
+#     depends_on:
+#       - rabbitmq
+#     environment:
+#       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq
+#       - CELERY_RESULT_BACKEND_URL=redis://redis
+
+version: '3.7'
 
 services:
   api:
-    image: vepga-api
-    build: .
-    command: gunicorn -b 0.0.0.0:5000 vepga-api.wsgi:app
-    env_file:
-      - ./.flaskenv
-    environment:
-      - DATABASE_URI=sqlite:////db/vepga-api.db
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq
-      - CELERY_RESULT_BACKEND_URL=redis://redis
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     volumes:
-      - ./vepga-api:/code/vepga-api
-      - ./db/:/db/
+      - './api:/usr/src/app'
     ports:
-      - "5000:5000"
-  frontend:
-  rabbitmq:
-    image: rabbitmq
-  redis:
-    image: redis
-  celery:
-    image: vepga-api
-    command: "celery worker -A vepga-api.celery_app:app"
-    env_file:
-      - ./.flaskenv
-    volumes:
-      - .:/code
-    depends_on:
-      - rabbitmq
+      - 5002:5000
     environment:
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq
-      - CELERY_RESULT_BACKEND_URL=redis://redis
+      - FLASK_CONFIG=development
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@tutorial-db:5432/dev_db
+      - DATABASE_TEST_URL=postgres://postgres:postgres@tutorial-db:5432/test_db
+      - SECRET_KEY=ZQbn05PDeA7v11
+    depends_on:
+      - tutorial-db
+
+  tutorial-db:
+    build:
+      context: ./api/project/db
+      dockerfile: Dockerfile
+    ports:
+      - 5436:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    depends_on:
+      - api
+      - client
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - './client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3008:3000
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_SERVICE_URL=http://localhost:8080
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - api
