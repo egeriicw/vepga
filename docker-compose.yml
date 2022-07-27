@@ -54,11 +54,11 @@ services:
       - DATABASE_TEST_URL=postgres://postgres:postgres@tutorial-db:5432/test_db
       - SECRET_KEY=ZQbn05PDeA7v11
     depends_on:
-      - tutorial-db
+      - db
 
-  tutorial-db:
+  db:
     build:
-      context: ./api/project/db
+      context: ./api/src/db
       dockerfile: Dockerfile
     ports:
       - 5436:5432
@@ -66,29 +66,29 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    ports:
-      - 8080:8080
-    depends_on:
-      - api
-      - client
+  # nginx:
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - api
+  #     - client
 
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    volumes:
-      - './client:/usr/src/app'
-      - '/usr/src/app/node_modules'
-    ports:
-      - 3008:3000
-    environment:
-      - NODE_ENV=development
-      - REACT_APP_SERVICE_URL=http://localhost:8080
-      - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      - api
+  # client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - './client:/usr/src/app'
+  #     - '/usr/src/app/node_modules'
+  #   ports:
+  #     - 3008:3000
+  #   environment:
+  #     - NODE_ENV=development
+  #     - REACT_APP_SERVICE_URL=http://localhost:8080
+  #     - CHOKIDAR_USEPOLLING=true
+  #   depends_on:
+  #     - api
