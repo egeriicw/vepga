@@ -2,7 +2,7 @@
 version: '3'
 
 services:
-  web:
+  api:
     image: vepga-api
     build: .
     command: gunicorn -b 0.0.0.0:5000 vepga-api.wsgi:app
@@ -17,6 +17,7 @@ services:
       - ./db/:/db/
     ports:
       - "5000:5000"
+  frontend:
   rabbitmq:
     image: rabbitmq
   redis:
