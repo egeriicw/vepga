@@ -1,7 +1,7 @@
 from http import HTTPStatus
 from functools import wraps
 from flask import request, jsonify
-from project.modules.users.models import Users
+from src.modules.users.models import Users
 
 
 def is_admin(user_id: int):

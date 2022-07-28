@@ -1,7 +1,7 @@
 import datetime
 import jwt
 import logging
-from project.extensions import db, bcrypt
+from src.extensions import db, bcrypt
 from sqlalchemy_utils import Timestamp
 from flask import current_app
 

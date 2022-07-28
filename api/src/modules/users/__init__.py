@@ -3,7 +3,7 @@ from http import HTTPStatus
 from flask import Blueprint, request
 from flask_restx import Resource, Api
 
-from project.modules.utils import authenticate_restful, is_admin
+from src.modules.utils import authenticate_restful, is_admin
 from .models import Users as UsersModel
 
 log = logging.getLogger(__name__)
